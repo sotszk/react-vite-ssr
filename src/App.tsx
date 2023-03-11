@@ -8,6 +8,7 @@ function App() {
   useEffect(() => {
     const env = import.meta.env;
     console.log('env.VITE_SITE_NAME:', env.VITE_SITE_NAME);
+    // console.log(window.__APP_ENV__);
   }, [])
 
   return (
