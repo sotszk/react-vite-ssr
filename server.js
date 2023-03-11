@@ -4,7 +4,9 @@ import { fileURLToPath } from "url";
 import express from "express";
 import { createServer as createViteServer } from "vite";
 
-// [ ] import.meta.url には何が入るか
+const PORT = 5173;
+
+// [x] import.meta.url には何が入るか
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function createServer() {
@@ -50,7 +52,9 @@ async function createServer() {
     }
   });
 
-  app.listen(5173);
+  app.listen(PORT, () => {
+    console.log("Server running on %o", `http://localhost:${PORT}/`);
+  });
 }
 
 createServer();
