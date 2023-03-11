@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import './index.css'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
+import "./index.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const env = import.meta.env;
-    console.log('env.VITE_SITE_NAME:', env.VITE_SITE_NAME);
+    console.log("env.VITE_SITE_NAME:", env.VITE_SITE_NAME);
     // console.log(window.__APP_ENV__);
-  }, [])
+  }, []);
 
   return (
     <div className="App">
@@ -35,7 +35,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

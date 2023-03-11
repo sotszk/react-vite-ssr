@@ -1,9 +1,6 @@
 import ReactDOM from "react-dom/client";
-import App from './App';
+import App from "./App";
 
-ReactDOM.hydrateRoot(
-  document.getElementById('app') as Element,
-    <App/>
-);
+ReactDOM.hydrateRoot(document.getElementById("app") as Element, <App />);
 
-console.log('hydrated');
+console.log("hydrated");
