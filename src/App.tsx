@@ -1,9 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const env = import.meta.env;
+    console.log('env.VITE_SITE_NAME:', env.VITE_SITE_NAME);
+  }, [])
 
   return (
     <div className="App">
