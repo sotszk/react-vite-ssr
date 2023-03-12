@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "node server",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
+    "build": "run-p build:*",
+    "serve": "NODE_ENV=production node server"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -20,8 +22,11 @@
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitejs/plugin-react-swc": "^3.2.0",
+    "compression": "^1.7.4",
     "express": "^4.18.2",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
+    "serve-static": "^1.15.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.3",
     "vite": "^4.1.0"
