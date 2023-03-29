@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import "./index.css";
+
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 const pages = import.meta.glob<true, string, any>("./pages/*.tsx", {
   eager: true,
@@ -48,15 +51,19 @@ function App() {
       </div>
       <h1>Vite + React + SSR</h1>
       <div className="card">
+        <button onClick={() => (({} as any).methodDoesNotExist())}>
+          Break the world
+        </button>
+        ;
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
       </div>
-      <Routes>
+      <SentryRoutes>
         {routes.map(({ path, component: RouteComponent }) => (
           <Route key={path} path={path} element={<RouteComponent />}></Route>
         ))}
-      </Routes>
+      </SentryRoutes>
     </div>
   );
 }
