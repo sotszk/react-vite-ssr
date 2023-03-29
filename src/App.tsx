@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+// import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
 import reactLogo from "./assets/react.svg";
 import "./App.css";
@@ -21,6 +22,25 @@ const routes = Object.keys(pages).map((path) => {
   };
 });
 
+// function ErrorFallback({ error }: FallbackProps) {
+//   return (
+//     <>
+//       <div>エラーです！</div>
+//       {error?.message ?? <pre>{error.message}</pre>}
+//     </>
+//   );
+// }
+
+const ErrorFallback: Sentry.FallbackRender = ({ error, componentStack }) => {
+  return (
+    <div>
+      <h1>エラーです</h1>
+      <pre>{error.message}</pre>
+      <pre>{componentStack}</pre>
+    </div>
+  );
+};
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -31,40 +51,42 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <nav>
-        <ul>
-          {routes.map((route) => (
-            <li key={route.path}>
-              <Link to={route.path}>{route.name}</Link>
-            </li>
+    <Sentry.ErrorBoundary fallback={ErrorFallback}>
+      <div className="app">
+        <nav>
+          <ul>
+            {routes.map((route) => (
+              <li key={route.path}>
+                <Link to={route.path}>{route.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div>
+          <a href="https://vitejs.dev" target="_blank">
+            <img src="/vite.svg" className="logo" alt="Vite logo" />
+          </a>
+          <a href="https://reactjs.org" target="_blank">
+            <img src={reactLogo} className="logo react" alt="React logo" />
+          </a>
+        </div>
+        <h1>Vite + React + SSR</h1>
+        <div className="card">
+          <button onClick={() => (({} as any).methodDoesNotExist())}>
+            Break the world
+          </button>
+          ;
+          <button onClick={() => setCount((count) => count + 1)}>
+            count is {count}
+          </button>
+        </div>
+        <SentryRoutes>
+          {routes.map(({ path, component: RouteComponent }) => (
+            <Route key={path} path={path} element={<RouteComponent />}></Route>
           ))}
-        </ul>
-      </nav>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        </SentryRoutes>
       </div>
-      <h1>Vite + React + SSR</h1>
-      <div className="card">
-        <button onClick={() => (({} as any).methodDoesNotExist())}>
-          Break the world
-        </button>
-        ;
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      <SentryRoutes>
-        {routes.map(({ path, component: RouteComponent }) => (
-          <Route key={path} path={path} element={<RouteComponent />}></Route>
-        ))}
-      </SentryRoutes>
-    </div>
+    </Sentry.ErrorBoundary>
   );
 }
 
